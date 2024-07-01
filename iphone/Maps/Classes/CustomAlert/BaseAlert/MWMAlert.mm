@@ -5,16 +5,13 @@
 #import "MWMEditorViralAlert.h"
 #import "MWMLocationAlert.h"
 #import "MWMOsmAuthAlert.h"
+#import "MWMOsmReauthAlert.h"
 #import "MWMPlaceDoesntExistAlert.h"
 #import "MWMRoutingDisclaimerAlert.h"
 
 #import "SwiftBridge.h"
 
 @implementation MWMAlert
-
-+ (MWMAlert *)authErrorAlertWithRetryBlock:(MWMVoidBlock)retryBlock {
-  return [MWMDefaultAlert authErrorAlertWithRetryBlock:retryBlock];
-}
 
 + (MWMAlert *)locationAlertWithCancelBlock:(MWMVoidBlock)cancelBlock {
   return [MWMLocationAlert alertWithCancelBlock:cancelBlock];
@@ -43,13 +40,7 @@
 + (MWMAlert *)noConnectionAlert {
   return [MWMDefaultAlert noConnectionAlert];
 }
-+ (MWMAlert *)searchQuickFilterNoConnectionAlert {
-  return [MWMDefaultAlert searchQuickFilterNoConnectionAlertWithOkBlock:^{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]
-                                       options:@{}
-                             completionHandler:NULL];
-  }];
-}
+
 + (MWMAlert *)deleteMapProhibitedAlert {
   return [MWMDefaultAlert deleteMapProhibitedAlert];
 }
@@ -110,18 +101,11 @@
   return [MWMDefaultAlert incorrectFeaturePositionAlert];
 }
 
-+ (MWMAlert *)internalErrorAlert {
-  return [MWMDefaultAlert internalErrorAlert];
-}
 + (MWMAlert *)notEnoughSpaceAlert {
   return [MWMDefaultAlert notEnoughSpaceAlert];
 }
 + (MWMAlert *)invalidUserNameOrPasswordAlert {
   return [MWMDefaultAlert invalidUserNameOrPasswordAlert];
-}
-
-+ (MWMAlert *)disableAutoDownloadAlertWithOkBlock:(MWMVoidBlock)okBlock {
-  return [MWMDefaultAlert disableAutoDownloadAlertWithOkBlock:okBlock];
 }
 
 + (MWMAlert *)downloaderNoConnectionAlertWithOkBlock:(MWMVoidBlock)okBlock cancelBlock:(MWMVoidBlock)cancelBlock {
@@ -134,10 +118,6 @@
 
 + (MWMAlert *)downloaderInternalErrorAlertWithOkBlock:(MWMVoidBlock)okBlock cancelBlock:(MWMVoidBlock)cancelBlock {
   return [MWMDefaultAlert downloaderInternalErrorAlertWithOkBlock:okBlock cancelBlock:cancelBlock];
-}
-
-+ (MWMAlert *)downloaderNeedUpdateAlertWithOkBlock:(MWMVoidBlock)okBlock {
-  return [MWMDefaultAlert downloaderNeedUpdateAlertWithOkBlock:okBlock];
 }
 
 + (MWMAlert *)placeDoesntExistAlertWithBlock:(MWMStringBlock)block {
@@ -158,6 +138,9 @@
 + (MWMAlert *)osmAuthAlert {
   return [MWMOsmAuthAlert alert];
 }
++ (MWMAlert *)osmReauthAlert {
+  return [MWMOsmReauthAlert alert];
+}
 + (MWMAlert *)personalInfoWarningAlertWithBlock:(MWMVoidBlock)block {
   return [MWMDefaultAlert personalInfoWarningAlertWithBlock:block];
 }
@@ -176,24 +159,12 @@
   return [MWMBCCreateCategoryAlert alertWithMaxCharachersNum:max minCharactersNum:min callback:callback];
 }
 
-+ (MWMAlert *)convertBookmarksAlertWithCount:(NSUInteger)count block:(MWMVoidBlock)block {
-  return [MWMDefaultAlert convertBookmarksWithCount:count okBlock:block];
-}
-
 + (MWMAlert *)spinnerAlertWithTitle:(NSString *)title cancel:(MWMVoidBlock)cancel {
   return [MWMSpinnerAlert alertWithTitle:title cancel:cancel];
 }
 
 + (MWMAlert *)bookmarkConversionErrorAlert {
   return [MWMDefaultAlert bookmarkConversionErrorAlert];
-}
-
-+ (MWMAlert *)restoreBookmarkAlertWithMessage:(NSString *)message
-                            rightButtonAction:(MWMVoidBlock)rightButton
-                             leftButtonAction:(MWMVoidBlock)leftButton {
-  return [MWMDefaultAlert restoreBookmarkAlertWithMessage:message
-                                        rightButtonAction:rightButton
-                                         leftButtonAction:leftButton];
 }
 
 + (MWMAlert *)tagsLoadingErrorAlertWithOkBlock:okBlock cancelBlock:cancelBlock {

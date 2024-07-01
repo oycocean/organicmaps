@@ -3,8 +3,8 @@
 #import "MWMMapViewControlsManager.h"
 #import "SwiftBridge.h"
 
-
 #include <CoreApi/Framework.h>
+#include <CoreApi/Logger.h>
 
 namespace
 {
@@ -18,6 +18,8 @@ NSString * const kUDAutoNightModeOff = @"AutoNightModeOff";
 NSString * const kThemeMode = @"ThemeMode";
 NSString * const kSpotlightLocaleLanguageId = @"SpotlightLocaleLanguageId";
 NSString * const kUDTrackWarningAlertWasShown = @"TrackWarningAlertWasShown";
+NSString * const kiCLoudSynchronizationEnabledKey = @"iCLoudSynchronizationEnabled";
+NSString * const kUDFileLoggingEnabledKey = @"FileLoggingEnabledKey";
 }  // namespace
 
 @implementation MWMSettings
@@ -116,7 +118,6 @@ NSString * const kUDTrackWarningAlertWasShown = @"TrackWarningAlertWasShown";
 {
   NSUserDefaults * ud = NSUserDefaults.standardUserDefaults;
   [ud setObject:spotlightLocaleLanguageId forKey:kSpotlightLocaleLanguageId];
-  [ud synchronize];
 }
 
 + (BOOL)largeFontSize { return GetFramework().LoadLargeFontsSize(); }
@@ -143,7 +144,6 @@ NSString * const kUDTrackWarningAlertWasShown = @"TrackWarningAlertWasShown";
 {
   NSUserDefaults * ud = NSUserDefaults.standardUserDefaults;
   [ud setBool:shown forKey:kUDTrackWarningAlertWasShown];
-  [ud synchronize];
 }
 
 + (NSString *)donateUrl
@@ -156,6 +156,33 @@ NSString * const kUDTrackWarningAlertWasShown = @"TrackWarningAlertWasShown";
 {
   bool isNY;
   return settings::Get("NY", isNY) ? isNY : false;
+}
+
++ (BOOL)iCLoudSynchronizationEnabled
+{
+  return [NSUserDefaults.standardUserDefaults boolForKey:kiCLoudSynchronizationEnabledKey];
+}
+
++ (void)setICLoudSynchronizationEnabled:(BOOL)iCLoudSyncEnabled
+{
+  [NSUserDefaults.standardUserDefaults setBool:iCLoudSyncEnabled forKey:kiCLoudSynchronizationEnabledKey];
+  [NSNotificationCenter.defaultCenter postNotificationName:NSNotification.iCloudSynchronizationDidChangeEnabledState object:nil];
+}
+
++ (void)initializeLogging {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    [self setFileLoggingEnabled:[self isFileLoggingEnabled]];
+  });
+}
+
++ (BOOL)isFileLoggingEnabled {
+  return [NSUserDefaults.standardUserDefaults boolForKey:kUDFileLoggingEnabledKey];
+}
+
++ (void)setFileLoggingEnabled:(BOOL)fileLoggingEnabled {
+  [NSUserDefaults.standardUserDefaults setBool:fileLoggingEnabled forKey:kUDFileLoggingEnabledKey];
+  [Logger setFileLoggingEnabled:fileLoggingEnabled];
 }
 
 @end

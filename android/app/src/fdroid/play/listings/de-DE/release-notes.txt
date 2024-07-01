@@ -1,8 +1,8 @@
-• OpenStreetMap data as of February 28
-• Export all bookmarks as a single KMZ file
-• Fixed several crashes
-• "Routing options enabled" is no longer displayed when using ruler
-• Included wheelchair accessibility information on place pages
-• Added recycling and elevation information to search result descriptions
+• OpenStreetMap-Daten, Stand: 28. Mai
+• Suche nach US-Postleitzahlen und UK (GB)-Postleitzahlen
+• Ansagen von Straßennamen in verbalen TTS-Abbiegeanweisungen (bitte in den Einstellungen aktivieren)
+• Lesezeichen und Tracks im GPX-Dateiformat exportieren
+• Speichern von Lesezeichen und Tracks auf einem lokalen Gerät
+• Hinzufügen, Bearbeiten und Anzeigen von Weblinks zu Speisekarten von Restaurants, Bars und anderen gastronomischen Betrieben
 
-…read more details at omaps.org/news
+…mehr Details unter omaps.org/de/news

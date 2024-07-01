@@ -1,12 +1,17 @@
-• OpenStreetMap data as of February 28
-• Export all bookmarks as a single KMZ file
-• Allow changing the track color
-• New about screen
-• Fixed several crashes
-• Updated the primary app color
-• Replaced Night Mode with Appearance settings
-• "Routing options enabled" is no longer displayed when using ruler
-• Included wheelchair accessibility information on place pages
-• Added recycling and elevation information to search result descriptions
+• экспериментальная синхронизация меток и треков в iCloud (включается в настройках)
+• объявление названий улиц во время голосовой навигации (включается в настройках)
+• наконец-то можно переключаться между телефоном и CarPlay
+• поиск почтовых индексов США и Великобритании (GB)
+• экспорт меток и треков в формате GPX
+• новые данные OpenStreetMap по состоянию на 28 мая
+• добавление, редактирование и отображение веб-ссылок на меню ресторанов, баров и заведений общественного питания
+• исправлены ссылки на Википедию, содержащие вопросительный знак
+• исправлен цвет текста CarPlay в темном режиме
+• больше вариантов выбора языка для голосового сопровождения TTS
+• голосовые объявления теперь прерывают подкасты вместо того, чтобы их приглушать
+• исправлены кнопки, которые исчезали при добавлении места на карту
+• исправлена кнопка нерабочего времени в редакторе, чтобы она работала после полуночи
 
-…and more fixes and improvements, check https://omaps.org/news for details!
+Обновлены переводы на чешский, немецкий и португальский языки.
+
+Подробнее читайте на https://omaps.app/ru/news

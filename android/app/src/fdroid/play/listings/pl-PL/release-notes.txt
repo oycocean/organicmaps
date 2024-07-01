@@ -1,8 +1,8 @@
-• OpenStreetMap data as of February 28
-• Export all bookmarks as a single KMZ file
-• Fixed several crashes
-• "Routing options enabled" is no longer displayed when using ruler
-• Included wheelchair accessibility information on place pages
-• Added recycling and elevation information to search result descriptions
+• dane OpenStreetMap z 28 maja
+• wyszukiwanie kodów pocztowych w USA i Wielkiej Brytanii
+• zapowiadanie nazw ulic w komunikatach nawigacji (proszę włączyć w ustawieniach), autor Will Bradley
+• eksport zakładek i śladów do pliku w formacie GPX
+• zapis zakładek i śladów do lokalnej pamięci urządzenia
+• dodawanie, edycja i wyświetlanie linków do menu restauracji, barów i pozostałej gastronomii
 
-…read more details at omaps.org/news
+…więcej szczegółów na omaps.org/pl/news/

@@ -1,12 +1,20 @@
-• OpenStreetMap data as of February 28
-• Export all bookmarks as a single KMZ file
-• Allow changing the track color
-• New about screen
-• Fixed several crashes
-• Updated the primary app color
-• Replaced Night Mode with Appearance settings
-• "Routing options enabled" is no longer displayed when using ruler
-• Included wheelchair accessibility information on place pages
-• Added recycling and elevation information to search result descriptions
+• Synchronisierung von iCloud-Lesezeichen und -Titeln (EXPERIMENTAL, bitte in den Einstellungen aktivieren)
+• Ansagen von Straßennamen in verbalen TTS-Abbiegeanweisungen (EXPERIMENTAL, bitte in den Einstellungen aktivieren) 
+• Verwendung der Karte, wenn CarPlay verbunden ist
+• Suche nach US-Postleitzahlen und UK (GB)-Postleitzahlen
+• Lesezeichen und Tracks im GPX-Dateiformat exportieren
+• neue OpenStreetMap-Daten ab dem 28. Mai
+• Hinzufügen, Bearbeiten und Anzeigen von Weblinks zu Speisekarten von Restaurants, Bars und Lebensmitteldiensten
+• fehlende Adressen in den Details von Fitnessstudios korrigiert
+• Hinzufügen von "Gebäck" und "Kuchen" als Suchbegriffe
+• Korrektur von Wikipedia-Links, die ein Fragezeichen enthalten
+• CarPlay Textfarbe im dunklen Modus korrigiert
+• mehr TTS-Sprachoptionen
+• TTS-Wendeansagen unterbrechen Podcasts, anstatt sie zu unterdrücken
+• Behebung einiger Schaltflächen, die beim Hinzufügen eines Ortes zur Karte verschwunden sind
+• Fix: Ortsdetails werden nach der Bearbeitung eines Lesezeichens nicht aktualisiert
+• die Nicht-Geschäftszeiten-Schaltfläche im Editor funktioniert jetzt auch nach Mitternacht
 
-…and more fixes and improvements, check https://omaps.org/news for details!
+Aktualisierte tschechische, deutsche und portugiesische Übersetzungen.
+
+Bitte lesen Sie weitere Einzelheiten unter https://omaps.org/de/news

@@ -4,7 +4,6 @@
 #include "indexer/feature.hpp"
 
 #include "base/assert.hpp"
-#include "base/buffer_vector.hpp"
 #include "base/stl_helpers.hpp"
 
 #include <algorithm>
@@ -211,10 +210,11 @@ IsPostBoxChecker::IsPostBoxChecker()
   m_types.push_back(c.GetTypeByPath({"amenity", "post_box"}));
 }
 
-IsPostOfficeChecker::IsPostOfficeChecker()
+IsPostPoiChecker::IsPostPoiChecker()
 {
   Classificator const & c = classif();
-  m_types.push_back(c.GetTypeByPath({"amenity", "post_office"}));
+  for (char const * val : {"post_office", "post_box", "parcel_locker"})
+    m_types.push_back(c.GetTypeByPath({"amenity", val}));
 }
 
 IsFuelStationChecker::IsFuelStationChecker()
@@ -390,7 +390,7 @@ IsStreetOrSquareChecker::IsStreetOrSquareChecker()
 IsAddressObjectChecker::IsAddressObjectChecker() : BaseChecker(1 /* level */)
 {
   base::StringIL const paths = {
-    "building", "entrance", "amenity", "shop", "tourism", "historic", "office", "craft", "addr:interpolation"
+    "building", "entrance", "amenity", "shop", "tourism", "historic", "office", "craft", "leisure", "addr:interpolation"
   };
 
   Classificator const & c = classif();
@@ -480,6 +480,11 @@ IsPoiChecker::IsPoiChecker() : BaseChecker(1 /* level */)
 
   for (auto const & type : poiTypes)
     m_types.push_back(classif().GetTypeByPath({type}));
+}
+
+IsAmenityChecker::IsAmenityChecker() : BaseChecker(1 /* level */)
+{
+  m_types.push_back(classif().GetTypeByPath({"amenity"}));
 }
 
 AttractionsChecker::AttractionsChecker() : BaseChecker(2 /* level */)
@@ -594,50 +599,23 @@ bool IsBridgeOrTunnelChecker::IsMatched(uint32_t type) const
 
 IsHotelChecker::IsHotelChecker()
 {
+  base::StringIL const types[] = {
+    {"tourism", "alpine_hut"},
+    {"tourism", "apartment"},
+    {"tourism", "camp_site"},
+    {"tourism", "caravan_site"},  /// @todo Sure here?
+    {"tourism", "chalet"},
+    {"tourism", "guest_house"},
+    {"tourism", "hostel"},
+    {"tourism", "hotel"},
+    {"tourism", "motel"},
+    {"tourism", "wilderness_hut"},
+    {"leisure", "resort"},
+  };
+
   Classificator const & c = classif();
-  for (size_t i = 0; i < static_cast<size_t>(Type::Count); ++i)
-  {
-    auto const hotelType = static_cast<Type>(i);
-    auto const * const tag = GetHotelTypeTag(hotelType);
-    auto const type = c.GetTypeByPath({"tourism", tag});
-
-    m_types.push_back(type);
-
-    m_sortedTypes[i].first = type;
-    m_sortedTypes[i].second = hotelType;
-  }
-
-  sort(m_sortedTypes.begin(), m_sortedTypes.end());
-}
-
-unsigned IsHotelChecker::GetHotelTypesMask(FeatureType & ft) const
-{
-  feature::TypesHolder types(ft);
-  buffer_vector<uint32_t, feature::kMaxTypesCount> sortedTypes(types.begin(), types.end());
-  sort(sortedTypes.begin(), sortedTypes.end());
-
-  unsigned mask = 0;
-  size_t i = 0;
-  size_t j = 0;
-  while (i < sortedTypes.size() && j < m_sortedTypes.size())
-  {
-    if (sortedTypes[i] < m_sortedTypes[j].first)
-    {
-      ++i;
-    }
-    else if (sortedTypes[i] > m_sortedTypes[j].first)
-    {
-      ++j;
-    }
-    else
-    {
-      mask |= 1U << static_cast<unsigned>(m_sortedTypes[j].second);
-      ++i;
-      ++j;
-    }
-  }
-
-  return mask;
+  for (auto const & e : types)
+    m_types.push_back(c.GetTypeByPath(e));
 }
 
 IsIslandChecker::IsIslandChecker()
@@ -669,44 +647,6 @@ uint32_t IsCoastlineChecker::GetCoastlineType() const
 {
   CHECK_EQUAL(m_types.size(), 1, ());
   return m_types[0];
-}
-
-optional<IsHotelChecker::Type> IsHotelChecker::GetHotelType(FeatureType & ft) const
-{
-  feature::TypesHolder types(ft);
-  buffer_vector<uint32_t, feature::kMaxTypesCount> sortedTypes(types.begin(), types.end());
-  sort(sortedTypes.begin(), sortedTypes.end());
-
-  size_t i = 0;
-  size_t j = 0;
-  while (i < sortedTypes.size() && j < m_sortedTypes.size())
-  {
-    if (sortedTypes[i] < m_sortedTypes[j].first)
-      ++i;
-    else if (sortedTypes[i] > m_sortedTypes[j].first)
-      ++j;
-    else
-      return m_sortedTypes[j].second;
-  }
-  return {};
-}
-
-// static
-char const * IsHotelChecker::GetHotelTypeTag(Type type)
-{
-  switch (type)
-  {
-  case Type::Hotel: return "hotel";
-  case Type::Apartment: return "apartment";
-  case Type::CampSite: return "camp_site";
-  case Type::Chalet: return "chalet";
-  case Type::GuestHouse: return "guest_house";
-  case Type::Hostel: return "hostel";
-  case Type::Motel: return "motel";
-  case Type::Resort: return "resort";
-  case Type::Count: CHECK(false, ("Can't get hotel type tag")); return "";
-  }
-  UNREACHABLE();
 }
 
 IsWifiChecker::IsWifiChecker()
@@ -913,23 +853,6 @@ IsAddressInterpolChecker::IsAddressInterpolChecker() : BaseChecker(1 /* level */
   m_types.push_back(c.GetTypeByPath({"addr:interpolation"}));
   m_odd = c.GetTypeByPath({"addr:interpolation", "odd"});
   m_even = c.GetTypeByPath({"addr:interpolation", "even"});
-}
-
-feature::InterpolType IsAddressInterpolChecker::GetInterpolType(FeatureType & ft) const
-{
-  for (uint32_t t : feature::TypesHolder(ft))
-  {
-    if (t == m_odd)
-      return feature::InterpolType::Odd;
-    if (t == m_even)
-      return feature::InterpolType::Even;
-
-    ftype::TruncValue(t, 1);
-    if (t == m_types[0])
-      return feature::InterpolType::Any;
-  }
-
-  return feature::InterpolType::None;
 }
 
 

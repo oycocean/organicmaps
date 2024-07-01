@@ -1,8 +1,7 @@
-• OpenStreetMap data as of February 28
-• Export all bookmarks as a single KMZ file
-• Fixed several crashes
-• "Routing options enabled" is no longer displayed when using ruler
-• Included wheelchair accessibility information on place pages
-• Added recycling and elevation information to search result descriptions
+• Данные OpenStreetMap от 28 мая
+• поиск по почтовым индексам в США и Великобритании
+• объявления названий улиц в голосовых TTS-инструкциях при навигации (включается в настройках)
+• экспорт меток и треков в формате GPX и сохранение их локально на устройстве
+• добавление, редактирование и отображение веб-ссылок на меню ресторанов, баров и других заведений общественного питания
 
-…read more details at omaps.org/news
+…и многое другое на omaps.org/ru/news

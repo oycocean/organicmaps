@@ -1,12 +1,18 @@
-• Datos de OpenStreetMap al 28 de febrero
-• Exportación de todos los marcadores en un único archivo KMZ
-• Permite cambiar el color de la ruta
-• Pantalla «Acerca de» rediseñada
-• Se arreglaron varios cierres inesperados
-• Se actualizó el color principal de la aplicación
-• La configuración «Modo nocturno» se reemplazó por «Apariencia»
-• Ya no aparece «Opciones de enrutamiento activadas» al usar la regla
-• Las páginas de lugares incluyen información de accesibilidad con silla de ruedas
-• Las descripciones en los resultados de las búsquedas muestran datos de reciclaje y elevación
+• iCloud bookmarks and tracks synchronization (EXPERIMENTAL, please enable it in settings)
+• street name announcements in verbal TTS turn instructions (EXPERIMENTAL, please enable it in settings) 
+• use the map when CarPlay is connected
+• search for US zip codes and UK (GB) postcodes
+• export bookmarks and tracks in GPX file format
+• new OpenStreetMap data as of May 28
+• add, edit, and display web links to menus of restaurants, bars, and food services
+• fix missing addresses in fitness centers details
+• add "pastry" and "cakes" search keywords
+• fix Wikipedia links that contain a question mark
+• fix CarPlay text color in dark mode
+• more TTS voice options
+• TTS turn announcements interrupt podcasts instead of ducking them
+• fix some buttons that disappeared when adding a place to the map
+• fix place details not updated after a bookmark's edit
+• fix the non-business hours button in the Editor to work after midnight
 
-… entre otros arreglos y mejoras. Visite https://omaps.org/news para conocer más al respecto.
+Updated Czech, German, Portuguese translations.

@@ -2,6 +2,8 @@
 
 #include "drape_frontend/gui/shape.hpp"
 
+#include "base/buffer_vector.hpp"
+
 #include "drape/binding_info.hpp"
 #include "drape/drape_global.hpp"
 #include "drape/glsl_types.hpp"
@@ -10,8 +12,6 @@
 #include <functional>
 #include <string>
 #include <unordered_set>
-#include <utility>
-#include <vector>
 
 namespace gui
 {
@@ -20,7 +20,6 @@ using TAlphabet = std::unordered_set<strings::UniChar>;
 class StaticLabel
 {
 public:
-  static char const * DefaultDelim;
   struct Vertex
   {
     Vertex() = default;
@@ -52,7 +51,7 @@ public:
     TAlphabet m_alphabet;
   };
 
-  static void CacheStaticText(std::string const & text, char const * delim, dp::Anchor anchor,
+  static dp::TGlyphs CacheStaticText(std::string const & text, char const * delim, dp::Anchor anchor,
                               dp::FontDecl const & font, ref_ptr<dp::TextureManager> mng,
                               LabelResult & result);
 };
@@ -112,30 +111,27 @@ public:
   struct LabelResult
   {
     buffer_vector<DynamicVertex, 128> m_buffer;
-    m2::RectD m_boundRect;
+    m2::RectF m_boundRect;
   };
 
   void Precache(PrecacheParams const & params, PrecacheResult & result,
                 ref_ptr<dp::TextureManager> mng);
 
-  void SetText(LabelResult & result, std::string text) const;
-  m2::PointF GetAverageSize() const;
+  void SetText(LabelResult & result, std::string text, ref_ptr<dp::TextureManager> mng);
 
-  using TAlphabetNode = std::pair<strings::UniChar, dp::TextureManager::GlyphRegion>;
-  using TAlphabet = std::vector<TAlphabetNode>;
-
-  TAlphabet const & GetAlphabet() const { return m_alphabet; }
+  // TODO(AB): Refactor.
+  dp::TGlyphs GetGlyphs() const;
 
 private:
   void SetMaxLength(uint16_t maxLength);
-  ref_ptr<dp::Texture> SetAlphabet(std::string const & alphabet, ref_ptr<dp::TextureManager> mng);
 
 private:
   dp::Anchor m_anchor;
   uint16_t m_maxLength = 0;
   float m_textRatio = 0.0f;
 
-  TAlphabet m_alphabet;
+  dp::text::TextMetrics m_shapedText;
+  dp::TextureManager::TGlyphsBuffer m_glyphRegions;
 };
 
 class MutableLabelHandle : public Handle
@@ -152,8 +148,7 @@ public:
 
   bool Update(ScreenBase const & screen) override;
 
-  ref_ptr<MutableLabel> GetTextView();
-  void UpdateSize(m2::PointF const & size);
+  ref_ptr<MutableLabel> GetTextView() const;
 
 protected:
   void SetContent(std::string && content);
@@ -195,12 +190,12 @@ class StaticLabelHandle : public Handle
 
 public:
   StaticLabelHandle(uint32_t id, ref_ptr<dp::TextureManager> textureManager, dp::Anchor anchor,
-                    m2::PointF const & pivot, m2::PointF const & size, TAlphabet const & alphabet);
+                    m2::PointF const & pivot, dp::TGlyphs && glyphs);
 
   bool Update(ScreenBase const & screen) override;
 
 private:
-  strings::UniString m_alphabet;
+  dp::TGlyphs m_glyphs;
   ref_ptr<dp::TextureManager> m_textureManager;
   bool m_glyphsReady;
 };

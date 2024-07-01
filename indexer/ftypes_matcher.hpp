@@ -6,12 +6,8 @@
 #include "base/small_map.hpp"
 #include "base/stl_helpers.hpp"
 
-#include <array>
 #include <functional>
-#include <limits>
-#include <optional>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #define DECLARE_CHECKER_INSTANCE(CheckerType) static CheckerType const & Instance() { \
@@ -87,12 +83,12 @@ public:
   DECLARE_CHECKER_INSTANCE(IsPostBoxChecker);
 };
 
-class IsPostOfficeChecker : public BaseChecker
+class IsPostPoiChecker : public BaseChecker
 {
-  IsPostOfficeChecker();
+  IsPostPoiChecker();
 
 public:
-  DECLARE_CHECKER_INSTANCE(IsPostOfficeChecker);
+  DECLARE_CHECKER_INSTANCE(IsPostPoiChecker);
 };
 
 class IsFuelStationChecker : public BaseChecker
@@ -328,6 +324,15 @@ public:
   DECLARE_CHECKER_INSTANCE(IsPoiChecker);
 };
 
+class IsAmenityChecker : public BaseChecker
+{
+  IsAmenityChecker();
+public:
+  DECLARE_CHECKER_INSTANCE(IsAmenityChecker);
+
+  uint32_t GetType() const { return m_types[0]; }
+};
+
 class AttractionsChecker : public BaseChecker
 {
   size_t m_additionalTypesStart;
@@ -383,37 +388,9 @@ public:
 
 class IsHotelChecker : public BaseChecker
 {
-public:
-  enum class Type : uint8_t
-  {
-    Hotel,
-    Apartment,
-    CampSite,
-    Chalet,
-    GuestHouse,
-    Hostel,
-    Motel,
-    Resort,
-
-    Count
-  };
-
-  using UnderlyingType = std::underlying_type_t<Type>;
-
-  static_assert(base::Underlying(Type::Count) <= std::numeric_limits<UnderlyingType>::digits,
-                "Too many types of hotels");
-
-  static char const * GetHotelTypeTag(Type type);
-
-  unsigned GetHotelTypesMask(FeatureType & ft) const;
-
-  std::optional<Type> GetHotelType(FeatureType & ft) const;
-
-  DECLARE_CHECKER_INSTANCE(IsHotelChecker);
-private:
   IsHotelChecker();
-
-  std::array<std::pair<uint32_t, Type>, base::Underlying(Type::Count)> m_sortedTypes;
+public:
+  DECLARE_CHECKER_INSTANCE(IsHotelChecker);
 };
 
 // WiFi is a type in classificator.txt,
@@ -620,7 +597,27 @@ class IsAddressInterpolChecker : public BaseChecker
 public:
   DECLARE_CHECKER_INSTANCE(IsAddressInterpolChecker);
 
-  feature::InterpolType GetInterpolType(FeatureType & ft) const;
+  template <class Range> feature::InterpolType GetInterpolType(Range const & range) const
+  {
+    for (uint32_t t : range)
+    {
+      if (t == m_odd)
+        return feature::InterpolType::Odd;
+      if (t == m_even)
+        return feature::InterpolType::Even;
+
+      ftype::TruncValue(t, 1);
+      if (t == m_types[0])
+        return feature::InterpolType::Any;
+    }
+
+    return feature::InterpolType::None;
+  }
+
+  feature::InterpolType GetInterpolType(FeatureType & ft) const
+  {
+    return GetInterpolType(feature::TypesHolder(ft));
+  }
 };
 
 
@@ -655,16 +652,3 @@ std::string DebugPrint(LocalityType const localityType);
 
 HighwayClass GetHighwayClass(feature::TypesHolder const & types);
 }  // namespace ftypes
-
-namespace std
-{
-template<>
-struct hash<ftypes::IsHotelChecker::Type>
-{
-  size_t operator()(ftypes::IsHotelChecker::Type type) const
-  {
-    using UnderlyingType = ftypes::IsHotelChecker::UnderlyingType;
-    return hash<UnderlyingType>()(static_cast<UnderlyingType>(type));
-  }
-};
-}  // namespace std

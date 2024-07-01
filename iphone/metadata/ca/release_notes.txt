@@ -1,12 +1,18 @@
-• Dades de l’OpenStreetMap al 28 de febrer
-• Exportació de totes les adreces d’interès en un únic fitxer KMZ
-• Es permet canviar el color de la ruta
-• Pantalla «Quant a» redissenyada
-• Diverses fallades han estat corregides
-• S’ha actualitzat el color principal de l’aplicació
-• Els paràmetres «Mode nocturn» han canviat a «Aspecte»
-• Ja no es mostra «Opcions d’encaminament activades» quan s’usa el regle
-• Les pàgines dels llocs inclouen informació d’accessibilitat amb cadira de rodes
-• Les descripcions als resultats de la cerca tenen informació de reciclatge i elevació
+• iCloud bookmarks and tracks synchronization (EXPERIMENTAL, please enable it in settings)
+• street name announcements in verbal TTS turn instructions (EXPERIMENTAL, please enable it in settings) 
+• use the map when CarPlay is connected
+• search for US zip codes and UK (GB) postcodes
+• export bookmarks and tracks in GPX file format
+• new OpenStreetMap data as of May 28
+• add, edit, and display web links to menus of restaurants, bars, and food services
+• fix missing addresses in fitness centers details
+• add "pastry" and "cakes" search keywords
+• fix Wikipedia links that contain a question mark
+• fix CarPlay text color in dark mode
+• more TTS voice options
+• TTS turn announcements interrupt podcasts instead of ducking them
+• fix some buttons that disappeared when adding a place to the map
+• fix place details not updated after a bookmark's edit
+• fix the non-business hours button in the Editor to work after midnight
 
-… entre altres correccions i millores. Visiteu https://omaps.org/news per a assabentar-vos-en!
+Updated Czech, German, Portuguese translations.

@@ -1,8 +1,8 @@
-• Дані OpenStreetMap станом на 28 лютого
-• Експорт всіх міток в одному KMZ файлі
-• Виправлено декілька помилок
-• "Увімкнено налаштування об’їзду" більше не показується при використанні лінійки
-• Додано інформацію про доступність інвалідних візків на сторінках місць
-• Додано інформацію про переробку та висоту до описів результатів пошуку
+• OpenStreetMap data as of May 28
+• search for US zip codes and UK (GB) postcodes
+• street name announcements in verbal TTS turn instructions (please enable it in settings), thanks to Will Bradley
+• export bookmarks and tracks in GPX file format
+• save bookmarks and tracks to a local device storage
+• add, edit, and display web links to menus of restaurants, bars, and other food services
 
-…більше на omaps.org/uk/news
+…more details at omaps.org/news

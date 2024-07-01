@@ -1,8 +1,8 @@
-• Dades de l’OpenStreetMap al 28 de febrer
-• Exportació de totes les adreces d’interès en un únic fitxer KMZ
-• S’han afegit reciclatge i elevació a les descripcions dels resultats de la cerca
-• S’han corregit diverses fallades
-• Ja no es mostra «Opcions d’encaminament activades» quan s’usa el regle
-• S’assenyalen els llocs accessibles amb cadira de rodes
+• OpenStreetMap data as of May 28
+• search for US zip codes and UK (GB) postcodes
+• street name announcements in verbal TTS turn instructions (please enable it in settings), thanks to Will Bradley
+• export bookmarks and tracks in GPX file format
+• save bookmarks and tracks to a local device storage
+• add, edit, and display web links to menus of restaurants, bars, and other food services
 
-… llegiu-ne més a: omaps.org/news
+…more details at omaps.org/news
